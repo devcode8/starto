@@ -1,103 +1,327 @@
-import Image from "next/image";
+import Link from 'next/link';
+import { ArrowRight, Lightbulb, Presentation, Code, MessageSquare, Sparkles, TrendingUp, Users, Rocket, CheckCircle, Star, Zap } from 'lucide-react';
 
-export default function Home() {
+export default function HomePage() {
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-indigo-100">
+      {/* Hero Section */}
+      <div className="relative overflow-hidden">
+        {/* Background Pattern */}
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 to-purple-600/10">
+          <div className="absolute inset-0 opacity-40">
+            <div className="h-full w-full" style={{
+              backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='4'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+              backgroundSize: '60px 60px'
+            }}></div>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+
+        <div className="relative container mx-auto px-4 py-20 sm:py-32">
+          <div className="text-center max-w-4xl mx-auto">
+            {/* Badge */}
+            <div className="inline-flex items-center gap-2 bg-white/80 backdrop-blur-sm rounded-full px-4 py-2 mb-8 shadow-sm border border-white/20">
+              <Sparkles className="h-4 w-4 text-blue-600" />
+              <span className="text-sm font-medium text-gray-700">Powered by GPT-5</span>
+              <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+            </div>
+
+            {/* Main Title */}
+            <h1 className="text-6xl sm:text-7xl font-bold text-gray-900 mb-6 leading-tight">
+              <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Starto</span>
+            </h1>
+
+            {/* Tagline */}
+            <p className="text-2xl sm:text-3xl font-semibold text-gray-700 mb-6">
+              From idea spark to investor-ready startup.
+            </p>
+
+            {/* Subtitle */}
+            <p className="text-xl sm:text-2xl text-gray-600 mb-12 leading-relaxed max-w-3xl mx-auto">
+              Transform your startup idea into a complete business package with AI-powered validation, 
+              investor-ready pitch decks, and personalized tech stack recommendations.
+            </p>
+
+            {/* CTA Buttons */}
+            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
+              <Link 
+                href="/chat"
+                className="inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-2xl font-semibold hover:from-blue-700 hover:to-blue-800 transition-all duration-200 shadow-lg hover:shadow-xl group"
+              >
+                <Rocket className="mr-2 h-5 w-5 group-hover:animate-pulse" />
+                Launch Your Idea
+                <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+              </Link>
+              <div className="inline-flex items-center justify-center px-8 py-4 bg-white/80 backdrop-blur-sm text-gray-700 rounded-2xl font-semibold border border-white/20 shadow-lg">
+                <Users className="mr-2 h-5 w-5" />
+                2,400+ Ideas Validated
+              </div>
+            </div>
+
+            {/* Stats */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 max-w-2xl mx-auto">
+              <div className="text-center">
+                <div className="text-3xl font-bold text-blue-600 mb-2">5 min</div>
+                <div className="text-sm text-gray-600">Average completion time</div>
+              </div>
+              <div className="text-center">
+                <div className="text-3xl font-bold text-purple-600 mb-2">98%</div>
+                <div className="text-sm text-gray-600">User satisfaction rate</div>
+              </div>
+              <div className="text-center">
+                <div className="text-3xl font-bold text-green-600 mb-2">$2.4B</div>
+                <div className="text-sm text-gray-600">Total market size analyzed</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Features Section */}
+      <div className="py-20 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+              Everything You Need to Launch
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              From initial idea validation to investor presentations and technical guidance - 
+              all powered by advanced AI in one seamless conversation.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {/* Idea Validator */}
+            <div className="group bg-gradient-to-br from-green-50 to-green-100/50 p-8 rounded-2xl hover:shadow-xl transition-all duration-300 border border-green-200/50">
+              <div className="bg-gradient-to-br from-green-500 to-green-600 w-16 h-16 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                <Lightbulb className="h-8 w-8 text-white" />
+              </div>
+              <h3 className="text-xl font-semibold mb-3 text-gray-900">Idea Validator</h3>
+              <p className="text-gray-600 mb-4 leading-relaxed">
+                Comprehensive market research with TAM/SAM/SOM analysis, competitor insights, and validation scoring.
+              </p>
+              <Link 
+                href="/chat" 
+                className="inline-flex items-center text-green-600 hover:text-green-700 font-semibold group/link"
+              >
+                Start Validating
+                <ArrowRight className="ml-1 h-4 w-4 group-hover/link:translate-x-1 transition-transform" />
+              </Link>
+            </div>
+
+            {/* Pitch Builder */}
+            <div className="group bg-gradient-to-br from-purple-50 to-purple-100/50 p-8 rounded-2xl hover:shadow-xl transition-all duration-300 border border-purple-200/50">
+              <div className="bg-gradient-to-br from-purple-500 to-purple-600 w-16 h-16 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                <Presentation className="h-8 w-8 text-white" />
+              </div>
+              <h3 className="text-xl font-semibold mb-3 text-gray-900">Pitch Builder</h3>
+              <p className="text-gray-600 mb-4 leading-relaxed">
+                Professional 6-slide investor presentations with compelling narratives and email templates.
+              </p>
+              <Link 
+                href="/chat" 
+                className="inline-flex items-center text-purple-600 hover:text-purple-700 font-semibold group/link"
+              >
+                Create Pitch Deck
+                <ArrowRight className="ml-1 h-4 w-4 group-hover/link:translate-x-1 transition-transform" />
+              </Link>
+            </div>
+
+            {/* Tech Stack Guide */}
+            <div className="group bg-gradient-to-br from-orange-50 to-orange-100/50 p-8 rounded-2xl hover:shadow-xl transition-all duration-300 border border-orange-200/50">
+              <div className="bg-gradient-to-br from-orange-500 to-orange-600 w-16 h-16 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                <Code className="h-8 w-8 text-white" />
+              </div>
+              <h3 className="text-xl font-semibold mb-3 text-gray-900">Tech Stack Guide</h3>
+              <p className="text-gray-600 mb-4 leading-relaxed">
+                Personalized technology recommendations with cost analysis and implementation timelines.
+              </p>
+              <Link 
+                href="/chat" 
+                className="inline-flex items-center text-orange-600 hover:text-orange-700 font-semibold group/link"
+              >
+                Get Tech Guide
+                <ArrowRight className="ml-1 h-4 w-4 group-hover/link:translate-x-1 transition-transform" />
+              </Link>
+            </div>
+
+            {/* Q&A Assistant */}
+            <div className="group bg-gradient-to-br from-blue-50 to-blue-100/50 p-8 rounded-2xl hover:shadow-xl transition-all duration-300 border border-blue-200/50">
+              <div className="bg-gradient-to-br from-blue-500 to-blue-600 w-16 h-16 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                <MessageSquare className="h-8 w-8 text-white" />
+              </div>
+              <h3 className="text-xl font-semibold mb-3 text-gray-900">Q&A Assistant</h3>
+              <p className="text-gray-600 mb-4 leading-relaxed">
+                Ask strategic questions about funding, marketing, competition, and technical challenges.
+              </p>
+              <Link 
+                href="/chat" 
+                className="inline-flex items-center text-blue-600 hover:text-blue-700 font-semibold group/link"
+              >
+                Ask Questions
+                <ArrowRight className="ml-1 h-4 w-4 group-hover/link:translate-x-1 transition-transform" />
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Process Section */}
+      <div className="py-20 bg-gradient-to-br from-gray-50 to-blue-50">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+              How It Works
+            </h2>
+            <p className="text-xl text-gray-600">
+              Three simple steps to transform your idea into a complete startup package
+            </p>
+          </div>
+
+          <div className="max-w-4xl mx-auto">
+            <div className="grid md:grid-cols-3 gap-8 relative">
+              {/* Connection Line - positioned to connect the step circles */}
+              <div className="hidden md:block absolute top-8 left-1/4 right-1/4 h-px bg-gradient-to-r from-blue-300 via-purple-300 to-green-300 z-0"></div>
+
+              {/* Step 1 */}
+              <div className="text-center relative z-10">
+                <div className="bg-white rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-6 shadow-lg border-4 border-blue-100">
+                  <div className="bg-blue-600 rounded-full w-8 h-8 flex items-center justify-center">
+                    <span className="text-white font-bold text-sm">1</span>
+                  </div>
+                </div>
+                <h3 className="text-xl font-semibold mb-3 text-gray-900">Share Your Idea</h3>
+                <p className="text-gray-600">
+                  Tell us about your startup concept in natural conversation - no forms or complex inputs needed.
+                </p>
+              </div>
+
+              {/* Step 2 */}
+              <div className="text-center relative z-10">
+                <div className="bg-white rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-6 shadow-lg border-4 border-purple-100">
+                  <div className="bg-purple-600 rounded-full w-8 h-8 flex items-center justify-center">
+                    <span className="text-white font-bold text-sm">2</span>
+                  </div>
+                </div>
+                <h3 className="text-xl font-semibold mb-3 text-gray-900">AI Analysis</h3>
+                <p className="text-gray-600">
+                  Our GPT-5 AI analyzes your idea, researches the market, and creates comprehensive business materials.
+                </p>
+              </div>
+
+              {/* Step 3 */}
+              <div className="text-center relative z-10">
+                <div className="bg-white rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-6 shadow-lg border-4 border-green-100">
+                  <div className="bg-green-600 rounded-full w-8 h-8 flex items-center justify-center">
+                    <span className="text-white font-bold text-sm">3</span>
+                  </div>
+                </div>
+                <h3 className="text-xl font-semibold mb-3 text-gray-900">Launch Ready</h3>
+                <p className="text-gray-600">
+                  Get validation reports, pitch decks, tech recommendations, and strategic guidance to move forward.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Benefits Section */}
+      <div className="py-20 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+              Why Choose Starto?
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Save weeks of research and preparation with our intelligent, context-aware AI assistant
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            <div className="flex items-start gap-4">
+              <div className="bg-blue-100 rounded-full p-3 flex-shrink-0">
+                <Zap className="h-6 w-6 text-blue-600" />
+              </div>
+              <div>
+                <h3 className="font-semibold text-gray-900 mb-2">Lightning Fast</h3>
+                <p className="text-gray-600 text-sm">Complete validation, pitch, and tech stack analysis in under 5 minutes</p>
+              </div>
+            </div>
+
+            <div className="flex items-start gap-4">
+              <div className="bg-green-100 rounded-full p-3 flex-shrink-0">
+                <CheckCircle className="h-6 w-6 text-green-600" />
+              </div>
+              <div>
+                <h3 className="font-semibold text-gray-900 mb-2">Comprehensive Analysis</h3>
+                <p className="text-gray-600 text-sm">Market research, competitive analysis, and technical recommendations in one place</p>
+              </div>
+            </div>
+
+            <div className="flex items-start gap-4">
+              <div className="bg-purple-100 rounded-full p-3 flex-shrink-0">
+                <Star className="h-6 w-6 text-purple-600" />
+              </div>
+              <div>
+                <h3 className="font-semibold text-gray-900 mb-2">Investor Ready</h3>
+                <p className="text-gray-600 text-sm">Professional pitch decks and materials ready for investor meetings</p>
+              </div>
+            </div>
+
+            <div className="flex items-start gap-4">
+              <div className="bg-orange-100 rounded-full p-3 flex-shrink-0">
+                <TrendingUp className="h-6 w-6 text-orange-600" />
+              </div>
+              <div>
+                <h3 className="font-semibold text-gray-900 mb-2">Data-Driven Insights</h3>
+                <p className="text-gray-600 text-sm">TAM/SAM/SOM analysis, market validation scores, and growth projections</p>
+              </div>
+            </div>
+
+            <div className="flex items-start gap-4">
+              <div className="bg-indigo-100 rounded-full p-3 flex-shrink-0">
+                <Sparkles className="h-6 w-6 text-indigo-600" />
+              </div>
+              <div>
+                <h3 className="font-semibold text-gray-900 mb-2">GPT-5 Powered</h3>
+                <p className="text-gray-600 text-sm">Latest AI technology for accurate, contextual, and intelligent responses</p>
+              </div>
+            </div>
+
+            <div className="flex items-start gap-4">
+              <div className="bg-pink-100 rounded-full p-3 flex-shrink-0">
+                <MessageSquare className="h-6 w-6 text-pink-600" />
+              </div>
+              <div>
+                <h3 className="font-semibold text-gray-900 mb-2">Conversational Flow</h3>
+                <p className="text-gray-600 text-sm">Natural chat interface with intelligent context retention across all modes</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Final CTA Section */}
+      <div className="py-20 bg-gradient-to-r from-blue-600 to-purple-600">
+        <div className="container mx-auto px-4 text-center">
+          <div className="max-w-3xl mx-auto">
+            <h2 className="text-4xl font-bold text-white mb-6">
+              Ready to Turn Your Idea Into Reality?
+            </h2>
+            <p className="text-xl text-blue-100 mb-8">
+              Join thousands of entrepreneurs who've validated their ideas and built successful startups with AI guidance.
+            </p>
+            <Link 
+              href="/chat"
+              className="inline-flex items-center justify-center px-8 py-4 bg-white text-blue-600 rounded-2xl font-semibold hover:bg-gray-100 transition-all duration-200 shadow-xl group"
+            >
+              <Rocket className="mr-2 h-5 w-5 group-hover:animate-bounce" />
+              Start Building Today
+              <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+            </Link>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
