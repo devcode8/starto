@@ -309,7 +309,7 @@ export default function HomePage() {
               Ready to Turn Your Idea Into Reality?
             </h2>
             <p className="text-xl text-blue-100 mb-8">
-              Join thousands of entrepreneurs who've validated their ideas and built successful startups with AI guidance.
+              Join thousands of entrepreneurs who&apos;ve validated their ideas and built successful startups with AI guidance.
             </p>
             <Link 
               href="/chat"

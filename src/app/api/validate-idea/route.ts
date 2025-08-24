@@ -1,11 +1,11 @@
-import { NextRequest, NextResponse } from 'next/server';
+                               import { NextRequest, NextResponse } from 'next/server';
 import { generateCompletion } from '@/lib/openai';
 import { VALIDATION_PROMPT } from '@/lib/prompts';
 import { extractJsonData } from '@/lib/json-parser';
 
 export async function POST(request: NextRequest) {
   try {
-    const { idea, context } = await request.json();
+    const { idea } = await request.json();
 
     if (!idea) {
       return NextResponse.json({ error: 'Business idea is required' }, { status: 400 });

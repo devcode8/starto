@@ -36,13 +36,13 @@ export function cleanJsonResponse(response: string): string {
   return cleaned;
 }
 
-export function parseAIResponse(response: string): any {
+export function parseAIResponse(response: string): unknown {
   let cleaned = cleanJsonResponse(response);
   
   // Try parsing the cleaned response
   try {
     return JSON.parse(cleaned);
-  } catch (error) {
+  } catch {
     // If parsing fails, try additional fixes
     console.log('First parse attempt failed, trying additional cleaning...');
     

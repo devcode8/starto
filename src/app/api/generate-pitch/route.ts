@@ -3,6 +3,16 @@ import { generateCompletion } from '@/lib/openai';
 import { PITCH_PROMPT } from '@/lib/prompts';
 import { extractJsonData } from '@/lib/json-parser';
 
+interface Competitor {
+  name: string;
+  [key: string]: unknown;
+}
+
+interface ConversationMessage {
+  type: string;
+  content: string;
+}
+
 export async function POST(request: NextRequest) {
   try {
     const { idea, context, validationData, conversationHistory } = await request.json();
@@ -26,7 +36,7 @@ export async function POST(request: NextRequest) {
       enhancedPrompt += `Key Differentiator: ${validation.differentiator || 'Not specified'}\n`;
       
       if (validation.competitors) {
-        enhancedPrompt += `Main Competitors: ${validation.competitors.map((c: any) => c.name).join(', ')}\n`;
+        enhancedPrompt += `Main Competitors: ${validation.competitors.map((c: Competitor) => c.name).join(', ')}\n`;
       }
       
       enhancedPrompt += `\n\nIMPORTANT: Use this validation data to create a compelling, data-driven pitch deck that addresses the identified market opportunity and competitive landscape.`;
@@ -34,7 +44,7 @@ export async function POST(request: NextRequest) {
     
     // Also include recent conversation context
     if (conversationHistory && conversationHistory.length > 0) {
-      const recentContext = conversationHistory.slice(-3).map((msg: any) => 
+      const recentContext = conversationHistory.slice(-3).map((msg: ConversationMessage) => 
         `${msg.type}: ${msg.content.substring(0, 200)}...`
       ).join('\n');
       enhancedPrompt += `\n\nRecent Conversation Context:\n${recentContext}`;
@@ -56,7 +66,7 @@ export async function POST(request: NextRequest) {
       max_tokens: 2048,
     });
 
-    const pitchResult = extractJsonData(completion);
+    const pitchResult = extractJsonData(completion) as { slides?: unknown[]; investorEmail?: { subject?: string; body?: string }; [key: string]: unknown };
     
     console.log('Raw completion:', completion);
     console.log('Extracted pitch result:', JSON.stringify(pitchResult, null, 2));

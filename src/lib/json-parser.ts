@@ -1,5 +1,81 @@
+interface MarketSize {
+  tam: string;
+  sam: string;
+  som: string;
+}
+
+interface ValidationScore {
+  score: number;
+  reasoning: string;
+  risks: string[];
+  opportunities: string[];
+}
+
+interface Competitor {
+  name: string;
+  [key: string]: unknown;
+}
+
+interface ValidationData {
+  marketSize: MarketSize;
+  competitors: Competitor[];
+  painPoints: string[];
+  differentiator: string;
+  validationScore: ValidationScore;
+  nextSteps: string[];
+  [key: string]: unknown;
+}
+
+interface Slide {
+  slideNumber: number;
+  title: string;
+  content: string;
+  keyPoints: string[];
+  notes: string;
+}
+
+interface InvestorEmail {
+  subject: string;
+  body: string;
+}
+
+interface PitchData {
+  slides: Slide[];
+  investorEmail: InvestorEmail;
+  onePager: string;
+  [key: string]: unknown;
+}
+
+interface TechComparison {
+  name: string;
+  pros: string[];
+  cons: string[];
+  bestFor: string;
+  costEstimate: string;
+}
+
+interface PrototypeData {
+  primaryStack: string;
+  frontend: string;
+  frontendReason: string;
+  frontendAlts: string;
+  backend: string;
+  backendReason: string;
+  backendAlts: string;
+  database: string;
+  databaseReason: string;
+  databaseAlts: string;
+  hosting: string;
+  hostingReason: string;
+  hostingAlts: string;
+  comparisons: TechComparison[];
+  [key: string]: unknown;
+}
+
+type ExtractedData = ValidationData | PitchData | PrototypeData | unknown;
+
 // More robust JSON parsing with fallback extraction
-export function extractJsonData(response: string): any {
+export function extractJsonData(response: string): ExtractedData {
   // Clean the response first
   let cleaned = response.trim();
   
@@ -18,7 +94,7 @@ export function extractJsonData(response: string): any {
   // Try standard parsing first
   try {
     return JSON.parse(cleaned);
-  } catch (e) {
+  } catch {
     console.log('Standard parsing failed, extracting data manually...');
     
     // Manual extraction as fallback
@@ -26,20 +102,19 @@ export function extractJsonData(response: string): any {
   }
 }
 
-function extractDataManually(response: string): any {
+function extractDataManually(response: string): ExtractedData {
   // Try to detect if this is a pitch response based on content
   const isPitch = response.includes('slides') || response.includes('slideNumber') || response.includes('investorEmail');
-  const isValidation = response.includes('marketSize') || response.includes('validationScore') || response.includes('competitors');
   const isPrototype = response.includes('architecture') || response.includes('techStack') || response.includes('endpoints');
 
   if (isPitch) {
-    return extractPitchDataManually(response);
+    return extractPitchDataManually();
   } else if (isPrototype) {
-    return extractPrototypeDataManually(response);
+    return extractPrototypeDataManually();
   }
   
   // Default to validation structure
-  const result: any = {
+  const result: ValidationData = {
     marketSize: { tam: '', sam: '', som: '' },
     competitors: [],
     painPoints: [],
@@ -109,16 +184,8 @@ function extractDataManually(response: string): any {
     
     // Extract pain points (simplified)
     result.painPoints = [
-      {
-        problem: 'Market gap identified through analysis',
-        severity: 'High',
-        evidence: 'Industry research and user feedback'
-      },
-      {
-        problem: 'User experience challenges in current solutions',
-        severity: 'Medium', 
-        evidence: 'Competitive analysis reveals opportunities'
-      }
+      'Market gap identified through analysis',
+      'User experience challenges in current solutions'
     ];
     
     // Extract next steps
@@ -144,7 +211,7 @@ function extractDataManually(response: string): any {
   return result;
 }
 
-function extractPitchDataManually(response: string): any {
+function extractPitchDataManually(): PitchData {
   return {
     slides: [
       {
@@ -198,7 +265,7 @@ function extractPitchDataManually(response: string): any {
   };
 }
 
-function extractPrototypeDataManually(response: string): any {
+function extractPrototypeDataManually(): PrototypeData {
   return {
     primaryStack: "Modern full-stack JavaScript application with React and Node.js",
     frontend: "React.js with Next.js",

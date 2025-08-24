@@ -1,9 +1,19 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { generateCompletion } from '@/lib/openai';
 
+interface Competitor {
+  name: string;
+  [key: string]: unknown;
+}
+
+interface ConversationMessage {
+  type: string;
+  content: string;
+}
+
 export async function POST(request: NextRequest) {
   try {
-    const { question, idea, context, validationData, pitchData, prototypeData, conversationHistory } = await request.json();
+    const { question, idea, validationData, pitchData, prototypeData, conversationHistory } = await request.json();
 
     if (!question) {
       return NextResponse.json({ error: 'Question is required' }, { status: 400 });
@@ -27,7 +37,7 @@ Previous Validation Analysis:
 - Market Size SOM: ${validationData.marketSize?.som || 'Not specified'}
 - Validation Score: ${validationData.validationScore?.score || 'Not specified'}/10
 - Key Differentiator: ${validationData.differentiator || 'Not specified'}
-- Main Competitors: ${validationData.competitors?.map((c: any) => c.name).join(', ') || 'Not specified'}
+- Main Competitors: ${validationData.competitors?.map((c: Competitor) => c.name).join(', ') || 'Not specified'}
 `;
     }
 
@@ -56,7 +66,7 @@ Previous Technical Prototype:
 
     // Add recent conversation context
     if (conversationHistory && conversationHistory.length > 0) {
-      const recentContext = conversationHistory.slice(-3).map((msg: any) => 
+      const recentContext = conversationHistory.slice(-3).map((msg: ConversationMessage) => 
         `${msg.type === 'user' ? 'User' : 'AI'}: ${msg.content.substring(0, 300)}...`
       ).join('\n');
       contextPrompt += `

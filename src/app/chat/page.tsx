@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, Send, Lightbulb, Presentation, Code, Download, Copy, Check, Bot, User, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -23,11 +23,63 @@ interface Message {
   suggestions?: string[];
 }
 
+interface ValidationData {
+  marketSize?: {
+    tam?: string;
+    sam?: string;
+    som?: string;
+  };
+  validationScore?: {
+    score?: number;
+  };
+  differentiator?: string;
+  competitors?: Competitor[];
+  [key: string]: unknown;
+}
+
+interface PitchData {
+  slides?: Slide[];
+  investorEmail?: {
+    subject?: string;
+    body?: string;
+  };
+  [key: string]: unknown;
+}
+
+interface PrototypeData {
+  architecture?: {
+    overview?: string;
+    techStack?: {
+      frontend?: string;
+      backend?: string;
+      database?: string;
+    };
+  };
+  comparisons?: TechComparison[];
+  [key: string]: unknown;
+}
+
+interface Competitor {
+  name: string;
+  [key: string]: unknown;
+}
+
+interface Slide {
+  title: string;
+  content: string;
+  [key: string]: unknown;
+}
+
+interface TechComparison {
+  name: string;
+  [key: string]: unknown;
+}
+
 interface ConversationContext {
   businessIdea?: string;
-  validationData?: any;
-  pitchData?: any;
-  prototypeData?: any;
+  validationData?: ValidationData;
+  pitchData?: PitchData;
+  prototypeData?: PrototypeData;
   conversationHistory: Message[];
 }
 
@@ -323,15 +375,16 @@ export default function ChatPage() {
     }
   };
 
-  const formatResponse = (mode: Mode, data: any): string => {
+  const formatResponse = (mode: Mode, data: ValidationData | PitchData | PrototypeData | { answer?: string } | unknown): string => {
     switch (mode) {
       case 'validator':
-        const validation = data.validation;
+        const validation = (data as { validation?: ValidationData }).validation;
         if (!validation) {
           return 'Validation data not available. Please try again.';
         }
         
         const validationScore = validation.validationScore || { score: 0, reasoning: 'Score not available' };
+        const reasoning = (validationScore as { reasoning?: string }).reasoning || 'Score not available';
         const marketSize = validation.marketSize || { tam: 'Not specified', sam: 'Not specified', som: 'Not specified' };
         const competitors = Array.isArray(validation.competitors) ? validation.competitors : [];
         const nextSteps = Array.isArray(validation.nextSteps) ? validation.nextSteps : [];
@@ -340,7 +393,7 @@ export default function ChatPage() {
 
 **Validation Score: ${validationScore.score}/10**
 
-${validationScore.reasoning}
+${reasoning}
 
 ### Market Size
 - **TAM:** ${marketSize.tam}
@@ -351,15 +404,15 @@ ${validationScore.reasoning}
 ${validation.differentiator || 'Not specified'}
 
 ### Top Competitors
-${competitors.length > 0 ? competitors.slice(0, 2).map((comp: any) => 
-  `**${comp.name || 'Unknown'}:** ${comp.description || 'No description'}`
+${competitors.length > 0 ? competitors.slice(0, 2).map((comp: Competitor) => 
+  `**${comp.name || 'Unknown'}:** ${(comp as { description?: string }).description || 'No description'}`
 ).join('\n') : 'No competitors identified'}
 
 ### Next Steps
 ${nextSteps.length > 0 ? nextSteps.map((step: string, i: number) => `${i + 1}. ${step}`).join('\n') : '1. Continue with market research'}`;
 
       case 'pitch':
-        const pitch = data.pitch;
+        const pitch = (data as { pitch?: PitchData }).pitch;
         if (!pitch) {
           return 'Pitch data not available. Please try again.';
         }
@@ -371,12 +424,12 @@ ${nextSteps.length > 0 ? nextSteps.map((step: string, i: number) => `${i + 1}. $
 
 I've created a professional ${slides.length}-slide pitch deck for your idea:
 
-${slides.map((slide: any, index: number) => 
-  `### Slide ${slide.slideNumber || index + 1}: ${slide.title || 'Untitled'}
+${slides.map((slide: Slide, index: number) => 
+  `### Slide ${(slide as { slideNumber?: number }).slideNumber || index + 1}: ${slide.title || 'Untitled'}
 ${slide.content || 'Content not available'}
 
 **Key Points:**
-${Array.isArray(slide.keyPoints) ? slide.keyPoints.map((point: string) => `• ${point}`).join('\n') : '• Key points not available'}`
+${Array.isArray((slide as { keyPoints?: string[] }).keyPoints) ? (slide as { keyPoints?: string[] }).keyPoints?.map((point: string) => `• ${point}`).join('\n') : '• Key points not available'}`
 ).join('\n\n')}
 
 ### Investor Email Template
@@ -385,16 +438,15 @@ ${Array.isArray(slide.keyPoints) ? slide.keyPoints.map((point: string) => `• $
 ${investorEmail.body}`;
 
       case 'prototype':
-        const techData = data.techStack || data.prototype;
+        const techData = (data as { techStack?: PrototypeData; prototype?: PrototypeData }).techStack || (data as { techStack?: PrototypeData; prototype?: PrototypeData }).prototype;
         if (!techData) {
           return 'Tech stack data not available. Please try again.';
         }
         
-        const recommendations = techData.recommendations || [];
         const comparisons = techData.comparisons || [];
-        const considerations = techData.considerations || {};
-        const timeline = techData.timeline || {};
-        const costs = techData.costs || {};
+        const considerations = techData.considerations || {} as Record<string, unknown>;
+        const timeline = techData.timeline || {} as Record<string, unknown>;
+        const costs = techData.costs || {} as Record<string, unknown>;
         
         return `## Personalized Tech Stack Recommendations
 
@@ -420,11 +472,11 @@ ${investorEmail.body}`;
 
 ### Stack Comparison Analysis
 
-${comparisons.length > 0 ? comparisons.map((comp: any) => 
+${comparisons.length > 0 ? comparisons.map((comp: TechComparison) => 
   `**${comp.name || 'Option'}**: 
-  - Pros: ${comp.pros?.join(', ') || 'Various benefits'}
-  - Cons: ${comp.cons?.join(', ') || 'Some limitations'}
-  - Best for: ${comp.bestFor || 'Specific use cases'}`
+  - Pros: ${(comp as { pros?: string[] }).pros?.join(', ') || 'Various benefits'}
+  - Cons: ${(comp as { cons?: string[] }).cons?.join(', ') || 'Some limitations'}
+  - Best for: ${(comp as { bestFor?: string }).bestFor || 'Specific use cases'}`
 ).join('\n\n') : `**Performance Stack** (Recommended):
 - Pros: Fast development, great ecosystem, scalable
 - Cons: Higher learning curve initially
@@ -437,27 +489,27 @@ ${comparisons.length > 0 ? comparisons.map((comp: any) =>
 
 ### Implementation Timeline
 
-**Phase 1 (Weeks 1-2)**: ${timeline.phase1 || 'Setup development environment and basic project structure'}
-**Phase 2 (Weeks 3-4)**: ${timeline.phase2 || 'Core functionality development and database integration'}
-**Phase 3 (Weeks 5-6)**: ${timeline.phase3 || 'UI/UX implementation and testing'}
-**Phase 4 (Weeks 7-8)**: ${timeline.phase4 || 'Deployment and production optimization'}
+**Phase 1 (Weeks 1-2)**: ${(timeline as Record<string, string>).phase1 || 'Setup development environment and basic project structure'}
+**Phase 2 (Weeks 3-4)**: ${(timeline as Record<string, string>).phase2 || 'Core functionality development and database integration'}
+**Phase 3 (Weeks 5-6)**: ${(timeline as Record<string, string>).phase3 || 'UI/UX implementation and testing'}
+**Phase 4 (Weeks 7-8)**: ${(timeline as Record<string, string>).phase4 || 'Deployment and production optimization'}
 
 ### Cost Breakdown
 
-**Development**: ${costs.development || '$0-500/month for initial development tools'}
-**Hosting**: ${costs.hosting || '$0-50/month for MVP, scaling with usage'}
-**Third-party Services**: ${costs.services || '$0-200/month for essential integrations'}
-**Total Monthly**: ${costs.total || '$50-300/month depending on scale'}
+**Development**: ${(costs as Record<string, string>).development || '$0-500/month for initial development tools'}
+**Hosting**: ${(costs as Record<string, string>).hosting || '$0-50/month for MVP, scaling with usage'}
+**Third-party Services**: ${(costs as Record<string, string>).services || '$0-200/month for essential integrations'}
+**Total Monthly**: ${(costs as Record<string, string>).total || '$50-300/month depending on scale'}
 
 ### Key Considerations
 
-**Scalability**: ${considerations.scalability || 'Chosen stack supports growth from MVP to enterprise'}
-**Developer Experience**: ${considerations.devExperience || 'Modern tools with excellent debugging and deployment'}
-**Community Support**: ${considerations.community || 'Large communities for quick problem resolution'}
-**Long-term Viability**: ${considerations.longTerm || 'Technologies with strong future roadmaps'}`;
+**Scalability**: ${(considerations as Record<string, string>).scalability || 'Chosen stack supports growth from MVP to enterprise'}
+**Developer Experience**: ${(considerations as Record<string, string>).devExperience || 'Modern tools with excellent debugging and deployment'}
+**Community Support**: ${(considerations as Record<string, string>).community || 'Large communities for quick problem resolution'}
+**Long-term Viability**: ${(considerations as Record<string, string>).longTerm || 'Technologies with strong future roadmaps'}`;
 
       case 'qa':
-        return data.answer || data.response || 'Response generated successfully!';
+        return (data as { answer?: string; response?: string }).answer || (data as { answer?: string; response?: string }).response || 'Response generated successfully!';
 
       default:
         return 'Response generated successfully!';
@@ -630,11 +682,11 @@ ${comparisons.length > 0 ? comparisons.map((comp: any) =>
                       <div className="space-y-3 mt-4 pt-4 border-t border-gray-100">
                         {/* Suggestion Buttons */}
                         <div>
-                          {renderSuggestions(message)}
+                          {renderSuggestions(message) as React.ReactNode}
                         </div>
                         
                         {/* Export Buttons */}
-                        {message.data && (
+                        {Boolean(message.data) && (
                           <div className="flex items-center space-x-2">
                             <Button
                               size="sm"

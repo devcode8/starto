@@ -5,7 +5,7 @@ import { extractJsonData } from '@/lib/json-parser';
 
 export async function POST(request: NextRequest) {
   try {
-    const { idea, platform, context, validationData, pitchData } = await request.json();
+    const { idea, platform, validationData, pitchData } = await request.json();
 
     if (!idea || !platform) {
       return NextResponse.json({ error: 'Business idea and platform are required' }, { status: 400 });

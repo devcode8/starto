@@ -1,4 +1,4 @@
-import { writeFileSync, readFileSync, existsSync, mkdirSync } from 'fs';
+import { writeFileSync, readFileSync, existsSync, mkdirSync, readdirSync, statSync, unlinkSync } from 'fs';
 import { join } from 'path';
 
 const SESSIONS_DIR = join(process.cwd(), 'tmp', 'sessions');
@@ -8,10 +8,28 @@ if (!existsSync(SESSIONS_DIR)) {
   mkdirSync(SESSIONS_DIR, { recursive: true });
 }
 
+interface ConversationMessage {
+  id: string;
+  type: 'user' | 'ai';
+  content: string;
+  mode?: string;
+  data?: unknown;
+  timestamp: Date;
+  suggestions?: string[];
+}
+
+interface ConversationContext {
+  businessIdea?: string;
+  validationData?: unknown;
+  pitchData?: unknown;
+  prototypeData?: unknown;
+  conversationHistory: ConversationMessage[];
+}
+
 export interface SessionData {
   sessionId: string;
-  conversationContext: any;
-  messages: any[];
+  conversationContext: ConversationContext;
+  messages: ConversationMessage[];
   lastUpdated: Date;
 }
 
@@ -52,17 +70,16 @@ export function generateSessionId(): string {
 
 export function cleanupOldSessions(maxAgeHours = 24): void {
   try {
-    const fs = require('fs');
-    const files = fs.readdirSync(SESSIONS_DIR);
+    const files = readdirSync(SESSIONS_DIR);
     const cutoffTime = new Date(Date.now() - maxAgeHours * 60 * 60 * 1000);
     
     files.forEach((file: string) => {
       if (file.endsWith('.json')) {
         const filePath = join(SESSIONS_DIR, file);
-        const stats = fs.statSync(filePath);
+        const stats = statSync(filePath);
         
         if (stats.mtime < cutoffTime) {
-          fs.unlinkSync(filePath);
+          unlinkSync(filePath);
         }
       }
     });
